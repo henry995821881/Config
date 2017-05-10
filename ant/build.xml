@@ -1,0 +1,126 @@
+<project name="xyscmbdp" default="build-all" basedir=".">
+	
+	<!-- 属性配置文件 -->
+	<property file="build.properties" />
+	<!-- 项目目录 -->
+	<property name="project.home" value="." />
+	<!-- 项目打包名 -->
+	<property name="project.name" value="${dist.name}" />
+	<!-- 打包目标路径 -->
+	<property name="project.dist" value="${dist.home}" />
+	
+	<!-- 源路径配置 -->
+	<!-- xyscmbdp webapp web应用根 -->
+    <property name="project.webapp" value="${project.home}/webapp" />
+	<!-- xyscmbdp module 前台文件根 -->
+	<property name="project.webapp.app" value="${project.home}/webapp/app" />
+	<!-- xyscmbdp web 文件根 -->
+	<property name="project.webapp.web" value="${project.home}/webapp/web" />
+	<!-- xyscmbdp class 编译文件根 -->
+	<property name="project.WEB-INF.classes" value="${project.webapp}/WEB-INF/classes" />
+	<!-- xyscmbdp lib 依赖库文件根 -->
+	<property name="project.lib" value="${project.webapp}/WEB-INF/lib" />
+	<!-- webreport 报表 -->
+	<property name="project.webreport" value="${project.home}/webreport" />
+			
+	<!-- 目标路径配置 -->
+	<!-- 部署路径 -->
+	<property name="xyscmbdp.war" value="${project.dist}/${project.name}.war" />
+	<!-- 前台文件部署路径 -->
+	<property name="xyscmbdp.webapp.app" value="${xyscmbdp.war}/app" />
+	<!-- web文件部署路径 -->
+	<property name="xyscmbdp.webapp.web" value="${xyscmbdp.war}/web" />
+	<!-- 编译文件路径 -->
+	<property name="xyscmbdp.classes" value="${xyscmbdp.war}/WEB-INF/classes" />
+    <!-- class文件路径 -->
+	<property name="xyscmbdp.classes.com" value="${xyscmbdp.classes}/com" />
+	<!-- 配置文件路径 -->
+	<property name="xyscmbdp.classes.resources" value="${xyscmbdp.classes}/resources" />
+	<!-- 依赖库文件路径 -->
+	<property name="xyscmbdp.lib" value="${xyscmbdp.war}/WEB-INF/lib" />
+	<!-- 报表路径-->
+	<property name="webreport.war" value="${xyscmbdp.war}/WEB-INF" />
+	
+	<!-- 前台文件 -->
+	<target name="copy.xyscmbdp.app">
+		<copy todir="${xyscmbdp.webapp.app}">
+			<fileset dir="${project.webapp.app}" />
+		</copy>
+	</target>
+	
+	<!-- web文件 -->
+	<target name="copy.xyscmbdp.web">
+		<copy todir="${xyscmbdp.webapp.web}">
+			<fileset dir="${project.webapp.web}" />
+		</copy>
+	</target>
+	
+	<!-- lib包 -->
+	<target name="copy.xyscmbdp.lib">
+		<copy todir="${xyscmbdp.lib}">
+			<fileset dir="${project.lib}" />
+		</copy>
+	</target>
+	
+	<!-- 类文件 -->
+	<target name="copy.xyscmbdp.classes">
+		<copy todir="${xyscmbdp.classes.com}">
+			<fileset dir="${project.WEB-INF.classes}/com" />
+		</copy>
+	</target>
+	
+	<!-- 删除所文件 -->
+	<target name="delete-all">
+		<delete dir="${xyscmbdp.war}" />
+	</target>
+	
+	<!-- 部署所有文件 -->
+	<target name="build-all" >
+		<delete dir="${xyscmbdp.war}" />
+		<mkdir dir="${xyscmbdp.war}" />
+		<copy todir="${xyscmbdp.war}">
+			<fileset dir="${project.webapp}" />
+		</copy>
+		<copy todir="${webreport.war}">
+			<fileset dir="${project.webreport}" />
+		</copy>
+	</target>
+	
+	<!-- 部署所有文件 -->
+	<target name="build-bdp" >
+		<delete dir="${xyscmbdp.war}" />
+		<mkdir dir="${xyscmbdp.war}" />
+		<copy todir="${xyscmbdp.war}">
+			<fileset dir="${project.webapp}" />
+		</copy>
+		<copy todir="${webreport.war}/lib">
+			<fileset dir="${project.webreport}/lib" />
+		</copy>
+		<copy todir="${webreport.war}/finedb">
+			<fileset dir="${project.webreport}/finedb" />
+		</copy>
+	</target>
+	
+	<!-- 拷贝xyscmbdp -->
+	<target name="copy.xyscmbdp">
+		<mkdir dir="${xyscmbdp.war}" />
+		<copy todir="${xyscmbdp.war}">
+			<fileset dir="${project.webapp}" />
+		</copy>
+    </target>
+	
+	<!--拷贝报表文件-->
+	<target name="copy.webreport">
+		<copy todir="${webreport.war}">
+			<fileset dir="${project.webreport}" />
+		</copy>
+	</target>
+	
+	<!--任务 打印环境信息-->
+	<target name="help">
+	    <echo message="环境变量and命令列表 " />
+		<echo message="project.home = ${project.home}" />
+		<echo message="project.name = ${project.name}" />
+		<echo message="project.dist = ${project.dist}" />
+	</target>
+</project>
